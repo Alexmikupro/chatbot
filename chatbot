@@ -1,0 +1,254 @@
+{
+  "intents": [
+    {
+      "intent": "administratif",
+      "examples": [
+        {
+          "text": "as-t-on besoin d'une carte vitale pour s'inscrire/travailler"
+        },
+        {
+          "text": "j'ai perdu mon passeport et ma carte d'identité, puis-je quand même m'inscrire à iziwork"
+        },
+        {
+          "text": "je n'ai pas de papiers en cours de validité, puis-je quand même travailler"
+        },
+        {
+          "text": "quels documents doit-on réunir pour s'inscrire"
+        },
+        {
+          "text": "quels papiers faut-il pour pouvoir s'inscrire ?"
+        }
+      ],
+      "description": "l'intérimaire demande quels sont les documents nécessaires pour pouvoir s'inscrire"
+    },
+    {
+      "intent": "date-paiement",
+      "examples": [
+        {
+          "text": "à quelle fréquence suis-je censé récupérer ma paye"
+        },
+        {
+          "text": "peut-il y a voir des retards de paiement ?"
+        },
+        {
+          "text": "quand suis-je censé voir l'argent sur mon compte?"
+        },
+        {
+          "text": "quand vais-je être payé"
+        },
+        {
+          "text": "quand vais-je toucher mon salaire"
+        },
+        {
+          "text": "vais-je recevoir mon salaire toutes les deux semaines ?"
+        }
+      ],
+      "description": "savoir quand l'intérimaire sera payé"
+    }
+  ],
+  "entities": [
+    {
+      "entity": "emplois",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "manutention",
+          "synonyms": [
+            "logistique",
+            "préparation de commande",
+            "travail en entrepôt"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "technicien de surface",
+          "synonyms": [
+            "femmes de ménages",
+            "ménage"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "entreprises",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "carrefour",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "franprix",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "géodis",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "leroy merlin",
+          "synonyms": []
+        }
+      ],
+      "fuzzy_match": true
+    }
+  ],
+  "metadata": {
+    "api_version": {
+      "major_version": "v2",
+      "minor_version": "2018-11-08"
+    }
+  },
+  "dialog_nodes": [
+    {
+      "type": "standard",
+      "title": "Bienvenue",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Bonjour, mon travail est de répondre à toute vos question sur le fonctionnement de la plateforme iziwork ! "
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "welcome",
+      "dialog_node": "Bienvenue"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Carrefour, géodis, darty, Peugeot.. une centaine d'entreprises nous font confiance ! "
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "@entreprises",
+      "dialog_node": "node_3_1632599745729",
+      "previous_sibling": "node_6_1632599505825"
+    },
+    {
+      "type": "standard",
+      "title": "conditions d'inscription",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Pour vous inscrire et travailler avec iziwork, il faudra vous munir de :\n- une pièce d'identité en cours de validité\n- une carte vitale\n- un justificatif de domicile (facture, attestation.."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "#administratif",
+      "dialog_node": "node_4_1632598629917",
+      "previous_sibling": "Bienvenue"
+    },
+    {
+      "type": "standard",
+      "title": "opportunités proposées par iziwork",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Nous avons des centaines d'entreprises partenaires telles que Carrefour, Géodis. Les missions peuvent variés de la manutention jusqu'à des travaux pour cadres supérieurs. La durée de mission va de 1 jours à plusieurs années ! "
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "@emplois",
+      "dialog_node": "node_6_1632599505825",
+      "previous_sibling": "node_7_1632599235542"
+    },
+    {
+      "type": "standard",
+      "title": "question sur les paiements et facturations",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "La méthode de facturation se font tous les 6 du mois par virement bancaire, si vous ne recevez pas votre salaire à cette date, veuillez contacter nos gestionnaires de paie à l'adresse mail suivante: gestionnaire-paie@iziwork.com\nNous vous répondrons dans les plus brefs délais et nous nous feront le maximum pour régler votre situation."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "#date-paiement",
+      "dialog_node": "node_7_1632599235542",
+      "previous_sibling": "node_4_1632598629917"
+    },
+    {
+      "type": "standard",
+      "title": "Tout le reste",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Je n'ai pas compris. Vous pouvez essayer de reformuler."
+              },
+              {
+                "text": "Pouvez-vous dire cela autrement ? Je ne comprends pas."
+              },
+              {
+                "text": "Je n'ai pas compris ce que vous voulez dire."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "anything_else",
+      "dialog_node": "Tout le reste",
+      "previous_sibling": "node_3_1632599745729",
+      "disambiguation_opt_out": true
+    }
+  ],
+  "counterexamples": [],
+  "system_settings": {
+    "disambiguation": {
+      "prompt": "Vouliez-vous dire:",
+      "enabled": true,
+      "randomize": true,
+      "max_suggestions": 5,
+      "suggestion_text_policy": "title",
+      "none_of_the_above_prompt": "Aucune de précédent"
+    },
+    "human_agent_assist": {
+      "prompt": "Vouliez-vous dire:"
+    },
+    "intent_classification": {
+      "training_backend_version": "v2"
+    }
+  },
+  "learning_opt_out": false,
+  "name": "Relation Intérimaire Iziwork",
+  "language": "fr",
+  "description": "iziwork est une startup d'intérim. L'objectif de ce chatbot est de répondre aux questions communes des intérimaires"
+}
